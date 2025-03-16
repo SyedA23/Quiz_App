@@ -3,7 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
-  <body></body>
+
+  <body>
+    <div class="container">
+      <div class="image-section">
+        <img src="./assets/cloud image.png" alt="" srcset="" />
+      </div>
+      <div class="login-section">
+        <div class="credentials-section">
+          <h2>Signup</h2>
+          <p>Sign Up to Join</p>
+          <label for="fullName"
+            >Full Name <span class="mandatory">*</span>
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            id="fullName"
+            placeholder="Full Name"
+          />
+          <span id="name-err" style="color: red"></span>
+
+          <label for="emailId"
+            >Email ID <span class="mandatory">*</span>
+          </label>
+          <input
+            type="email"
+            name="emailId"
+            id="emailId"
+            placeholder="xyz12@gmail.com"
+          />
+          <span id="email-err" style="color: red"></span>
+
+          <label for="password"
+            >Password <span class="mandatory">*</span>
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+          />
+          <span id="password-err" style="color: red"></span>
+          <br />
+          <button id="login" onclick="signup()">Sign Up</button>
+        </div>
+
+        <div class="card">
+          <img src="./assets/google.png" alt="" srcset="" />
+          <p>Sign Up With Google</p>
+        </div>
+
+        <div class="middle" style="color: black">
+          <input type="checkbox" name="terms" id="terms" />I accept
+          <a href="#">Terms and conditions</a>
+          <p>
+            Have an Account? <a href="../Quiz Project/login.html">Log In?</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
 </html>
