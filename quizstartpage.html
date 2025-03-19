@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Start Page</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <img src="./assets/techoaathshala_logo.png" alt="" srcset="" />
+      </div>
+      <div class="menus">
+        <img
+          src="./assets/profile_picture.png"
+          alt=""
+          srcset=""
+          class="profile-photo"
+        />
+      </div>
+
+      <div class="popup-container" id="popup-container">
+        <div class="popup">
+          <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+    <h2 id="question-counter">Question 1 of 10</h2>
+    <div class="progress-bar"><div class="progress"></div></div>
+
+    <div class="question-container" id="quiz-container"></div>
+
+    <div class="submit-btn">
+      <button id="next-btn">Submit & Continue →</button>
+    </div>
+  </body>
+</html>
