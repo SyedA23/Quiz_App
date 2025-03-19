@@ -3,7 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
-  <body></body>
+  <body style="background-color: #f5f5f5">
+    <div class="navbar">
+      <div class="logo">
+        <img src="./assets/techoaathshala_logo.png" alt="" srcset="" />
+      </div>
+      <div class="menus">
+        <img
+          src="./assets/profile_picture.png"
+          alt=""
+          srcset=""
+          class="profile-photo"
+        />
+      </div>
+
+      <div class="popup-container" id="popup-container">
+        <div class="popup">
+          <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rank-container">
+      <h2 id="rank-heading">Wow You Rank 1st</h2>
+      <p id="rank">Supporting text</p>
+    </div>
+
+    <div class="top-three">
+      <div class="user-rank-second">
+        <h2>#2</h2>
+        <img src="./assets/rank_image1.png" alt="" srcset="" />
+        <div class="score-display">
+          <h2 id="secondName">Score</h2>
+          <p id="second">844</p>
+        </div>
+      </div>
+      <div class="user-rank-first">
+        <img src="./assets/rank_image2.png" alt="" srcset="" />
+        <div class="score-display">
+          <h2 id="firstName">Score</h2>
+          <p id="first">844</p>
+        </div>
+      </div>
+      <div class="user-rank-third">
+        <h2>#3</h2>
+        <img src="./assets/rank_image3.png" alt="" srcset="" />
+        <div class="score-display">
+          <h2 id="thirdName">Score</h2>
+          <p id="third">844</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-scores">
+      <div class="current-users">
+        <div class="current-user">
+          <div class="current-user-rank"></div>
+          <div class="current-user-name"></div>
+        </div>
+        <div class="current-user-score"></div>
+      </div>
+
+      <div class="other-users-container"></div>
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
 </html>
