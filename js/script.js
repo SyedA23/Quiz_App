@@ -141,6 +141,34 @@ function getLoggedInUser() {
   return null;
 }
 
+const profilePhoto = document.getElementById("profile-photo");
+const popupContainer = document.getElementById("popup-container");
+const logoutBtn = document.getElementById("logout-btn");
+
+profilePhoto.addEventListener("click", () => {
+  popupContainer.classList.toggle("hidden");
+});
+
+// Optional: Close popup if clicked outside
+document.addEventListener("click", function (e) {
+  if (!profilePhoto.contains(e.target) && !popupContainer.contains(e.target)) {
+    popupContainer.classList.add("hidden");
+  }
+});
+
+// Logout button functionality
+logoutBtn.addEventListener("click", () => {
+  // You can also clear localStorage/sessionStorage here if needed
+  // localStorage.clear(); // optional
+
+  // Redirect to login page
+  window.location.href = "index.html";
+});
+
+function startQuiz() {
+  window.location.href = "quizstartpage.html"; // Replace "quiz.html" with your target page
+}
+
 const quizQuestions = [
   // HTML Questions
   {
@@ -321,102 +349,99 @@ const quizQuestions = [
     answer: 1
   }
 ];
-
-// Store in localStorage
 localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
 
-console.log("Quiz questions stored in localStorage!");
-
-function getRandomQuestions() {
-  let questions = JSON.parse(localStorage.getItem("quizQuestions"));
-
-  if (!questions) {
-    console.error("No quiz questions found in localStorage!");
-    return [];
-  }
-
-  // Shuffle and get 10 random questions
-  questions = questions.sort(() => Math.random() - 0.5);
-  return questions.slice(0, 10);
-}
-
-// Global Variables
 let questions = [];
 let currentQuestionIndex = 0;
 let selectedAnswers = {};
 
-// Function to fetch 10 random questions on page load
+function getRandomQuestions() {
+  let allQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
+  if (allQuestions.length < 10) return [];
+  return allQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+}
+
 function loadQuiz() {
-    let allQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
-    
-    if (allQuestions.length < 10) {
-        console.error("Not enough questions in localStorage!");
-        return;
-    }
-
-    // Select 10 random questions
-    questions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
-
-    // Display the first question
-    displayQuestion();
+  questions = getRandomQuestions();
+  if (questions.length === 0) return;
+  displayQuestion();
+  updateProgressBar();
 }
 
-// Function to display the current question
 function displayQuestion() {
-    const quizContainer = document.getElementById("quiz-container");
-    quizContainer.innerHTML = ""; // Clear previous content
+  const quizContainer = document.getElementById("quiz-container");
+  const questionObj = questions[currentQuestionIndex];
+  if (!questionObj) {
+    quizContainer.innerHTML = "<h3>Quiz Completed! Thank you.</h3>";
+    return;
+  }
 
-    if (currentQuestionIndex >= questions.length) {
-        quizContainer.innerHTML = "<h3>Quiz Completed! Thank you.</h3>";
-        console.log("Selected Answers:", selectedAnswers);
-        return;
-    }
+  let questionHTML = `
+    <h2 id="question-counter">Question ${currentQuestionIndex + 1} of ${
+    questions.length
+  }</h2>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <h3 id="question-title">${currentQuestionIndex + 1}. ${
+    questionObj.question
+  }</h3>
+    <ol class="options" id="options">
+  `;
 
-    const questionObj = questions[currentQuestionIndex];
-
-    // Inject Question HTML
-    let questionHTML = `
-        <h3>${currentQuestionIndex + 1}. ${questionObj.question}</h3>
-        <ul>
+  questionObj.options.forEach((option) => {
+    questionHTML += `
+      <li>
+        <label>
+          <input type="radio" name="question" value="${option.id}" ${
+      selectedAnswers[questionObj.question] === option.id ? "checked" : ""
+    }> ${option.value}
+        </label>
+      </li>
     `;
+  });
 
-    questionObj.options.forEach(option => {
-        const isChecked = selectedAnswers[questionObj.id] === option.id ? "checked" : "";
-        questionHTML += `
-            <li>
-                <label>
-                    <input type="radio" name="question${questionObj.id}" value="${option.id}" ${isChecked}>
-                    ${option.value}
-                </label>
-            </li>
-        `;
-    });
-
-    questionHTML += "</ul>";
-
-    // Inject Next Button
-    questionHTML += `<button onclick="nextQuestion()">Submit & Continue →</button>`;
-
-    quizContainer.innerHTML = questionHTML;
+  questionHTML += `</ol>`;
+  quizContainer.innerHTML = questionHTML;
+  updateProgressBar();
 }
 
-// Function to handle next question
 function nextQuestion() {
-    const selectedOption = document.querySelector(`input[name="question${questions[currentQuestionIndex].id}"]:checked`);
-    
-    if (!selectedOption) {
-        alert("Please select an option before proceeding.");
-        return;
-    }
+  const selectedOption = document.querySelector(
+    "input[name='question']:checked"
+  );
+  if (!selectedOption)
+    return alert("Please select an option before proceeding.");
+  selectedAnswers[questions[currentQuestionIndex].question] = parseInt(
+    selectedOption.value
+  );
 
-    // Store the selected answer
-    selectedAnswers[questions[currentQuestionIndex].id] = parseInt(selectedOption.value);
-
-    // Move to the next question
+  if (currentQuestionIndex < questions.length - 1) {
     currentQuestionIndex++;
     displayQuestion();
+  } else {
+    document.getElementById("quiz-container").innerHTML =
+      "<h3>Quiz Completed! Thank you.</h3>";
+    console.log("User Answers:", selectedAnswers);
+  }
 }
 
-// Load quiz when the page loads
-window.onload = loadQuiz;
+function prevQuestion() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    displayQuestion();
+  }
+}
 
+function updateProgressBar() {
+  const progress = document.getElementById("progress");
+  if (progress) {
+    const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progress.style.width = `${percent}%`;
+  }
+}
+
+document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+document.getElementById("prevBtn").addEventListener("click", prevQuestion);
+
+window.onload = loadQuiz;
