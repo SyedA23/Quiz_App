@@ -408,23 +408,28 @@ button {
   background: #ebebf0;
   margin: 15px 0;
   padding: 0 40px;
+  border-radius: 50px;
 }
 .progress {
   height: 8px;
   background: gold;
   width: 0%;
+  border-radius: 50px;
   transition: width 0.3s ease-in-out;
 }
 .question-container {
   margin-top: 20px;
 }
-.option {
+.options {
   display: block;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
+  margin: 15px 0;
   cursor: pointer;
   list-style: decimal;
+}
+
+.options li {
+  margin-bottom: 15px; /* space between list items */
+  padding: 0 40px;
 }
 .selected {
   background-color: lightblue;
@@ -432,21 +437,22 @@ button {
 .navigation-btn {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 0 40px;
 }
 
 #prevBtn {
   font-weight: 500;
   font-size: 24px;
-  background-color: #ddd;
   color: #333;
+  background: none;
 }
 
 #nextBtn {
   font-weight: 500;
   font-size: 24px;
   color: #0948b4;
+  background: none;
 }
 
 #question-counter {
@@ -458,7 +464,7 @@ button {
 
 #question-title {
   font-weight: 700;
-  font-size: 30px;
+  font-size: 24px;
   color: #1c1c1e;
   padding: 0 0 0 40px;
 }
