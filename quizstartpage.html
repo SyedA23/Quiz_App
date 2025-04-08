@@ -7,32 +7,54 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+    <!-- Navbar -->
     <div class="navbar">
       <div class="logo">
-        <img src="./assets/techoaathshala_logo.png" alt="" srcset="" />
+        <img src="./assets/techoaathshala_logo.png" alt="Techpaathshala Logo" />
       </div>
       <div class="menus">
-        <img
-          src="./assets/profile_picture.png"
-          alt=""
-          srcset=""
-          class="profile-photo"
-        />
-      </div>
-
-      <div class="popup-container" id="popup-container">
-        <div class="popup">
-          <button class="logout-btn" id="logout-btn">Logout</button>
+        <div class="profile-menu">
+          <img
+            src="./assets/profile_picture.png"
+            alt="Profile Picture"
+            class="profile-photo"
+            id="profile-photo"
+          />
+          <div class="popup-container hidden" id="popup-container">
+            <div class="popup">
+              <button class="logout-btn" id="logout-btn">Logout</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <h2 id="question-counter">Question 1 of 10</h2>
-    <div class="progress-bar"><div class="progress"></div></div>
 
-    <div class="question-container" id="quiz-container"></div>
+    <!-- Quiz Container -->
+    <div class="question-container" id="quiz-container">
+      <!-- Question Header -->
+      <h2 id="question-counter">Question 1 of 10</h2>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
 
-    <div class="submit-btn">
-      <button id="next-btn">Submit & Continue →</button>
+      <!-- Question Title -->
+      <h3 id="question-title">1. This is the question?</h3>
+      <p class="supporting-text">Supporting Text</p>
+
+      <!-- Options -->
+      <ol class="options" id="options">
+        <li><strong>1.</strong> Option</li>
+        <li><strong>2.</strong> Option</li>
+        <li><strong>3.</strong> Option</li>
+        <li><strong>4.</strong> Option</li>
+      </ol>
+      <!-- Navigation Buttons -->
     </div>
+    <div class="navigation-btn">
+      <button id="prevBtn" disabled>← Previous</button>
+      <button id="nextBtn">Submit & Continue →</button>
+    </div>
+
+    <script src="js/script.js"></script>
   </body>
 </html>
