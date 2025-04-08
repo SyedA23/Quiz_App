@@ -130,6 +130,7 @@ button {
   align-items: center;
   gap: 1.5rem; /* Space between links and image */
   margin-left: auto; /* Pushes to the extreme right */
+  padding-right: 5rem;
 }
 .menus a {
   text-decoration: none;
@@ -347,42 +348,69 @@ button {
   font-weight: bold;
 }
 
-.popup-container {
+/* .popup-container {
   position: absolute;
   right: 10px;
   top: 85px;
-  /* top: 0; */
-  /* left: 0; */
-  /* left:50; */
-  /* width: 400px; */
-  /* height: 50px; */
-  /* background-color: white; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
-  /* display: none; */
+  top: 0;  
+  left: 0;
+  left: 50;
+  width: 400px;
+  height: 50px;
+  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
   justify-content: center;
   align-items: center;
+} */
+
+.profile-menu {
+  position: relative;
+  display: inline-block;
 }
-.logout-btn {
+
+.profile-photo {
+  cursor: pointer;
+}
+
+.popup-container {
+  position: absolute;
+  left: -80px;
+  top: 50px;
   width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.logout-btn {
+  width: 100%;
   height: 43px;
   background-color: #f3bd00;
   font-size: 18px;
   font-weight: 500;
   border-radius: 100px;
   border: none;
+  cursor: pointer;
 }
-.popup-container.hidden {
+
+.hidden {
   display: none;
+}
+
+.quiz-container {
+  padding: 50px 40px 0 40px;
 }
 
 .progress-bar {
   width: 100%;
-  height: 5px;
-  background: #ddd;
-  margin-top: 10px;
+  height: 8px;
+  background: #ebebf0;
+  margin: 15px 0;
+  padding: 0 40px;
 }
 .progress {
-  height: 5px;
+  height: 8px;
   background: gold;
   width: 0%;
   transition: width 0.3s ease-in-out;
@@ -396,12 +424,41 @@ button {
   margin: 5px 0;
   border: 1px solid #ddd;
   cursor: pointer;
+  list-style: decimal;
 }
 .selected {
   background-color: lightblue;
 }
-.submit-btn {
-  display: block;
-  text-align: right;
+.navigation-btn {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
+  padding: 0 40px;
+}
+
+#prevBtn {
+  font-weight: 500;
+  font-size: 24px;
+  background-color: #ddd;
+  color: #333;
+}
+
+#nextBtn {
+  font-weight: 500;
+  font-size: 24px;
+  color: #0948b4;
+}
+
+#question-counter {
+  padding-left: 40px;
+  font-weight: 600;
+  font-size: 36px;
+  color: #1c1c1e;
+}
+
+#question-title {
+  font-weight: 700;
+  font-size: 30px;
+  color: #1c1c1e;
+  padding: 0 0 0 40px;
 }
