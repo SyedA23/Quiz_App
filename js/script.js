@@ -353,7 +353,9 @@ localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
 
 let questions = [];
 let currentQuestionIndex = 0;
-let selectedAnswers = {};
+
+// Load previously saved answers or initialize empty
+let selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers")) || {};
 
 function getRandomQuestions() {
   let allQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
@@ -366,6 +368,18 @@ function loadQuiz() {
   if (questions.length === 0) return;
   displayQuestion();
   updateProgressBar();
+}
+
+function saveSelectedAnswer() {
+  const selectedOption = document.querySelector(
+    "input[name='question']:checked"
+  );
+  if (selectedOption) {
+    selectedAnswers[questions[currentQuestionIndex].question] = parseInt(
+      selectedOption.value
+    );
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+  }
 }
 
 function displayQuestion() {
@@ -403,6 +417,10 @@ function displayQuestion() {
 
   questionHTML += `</ol>`;
   quizContainer.innerHTML = questionHTML;
+
+  // Enable/Disable Previous button
+  document.getElementById("prevBtn").disabled = currentQuestionIndex === 0;
+
   updateProgressBar();
 }
 
@@ -412,9 +430,12 @@ function nextQuestion() {
   );
   if (!selectedOption)
     return alert("Please select an option before proceeding.");
+
+  // Save the selected answer
   selectedAnswers[questions[currentQuestionIndex].question] = parseInt(
     selectedOption.value
   );
+  localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
 
   if (currentQuestionIndex < questions.length - 1) {
     currentQuestionIndex++;
@@ -427,6 +448,9 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
+  // Save current answer before going back
+  saveSelectedAnswer();
+
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     displayQuestion();
