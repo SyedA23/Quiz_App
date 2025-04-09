@@ -403,11 +403,9 @@ button {
 }
 
 .progress-bar {
-  width: 100%;
   height: 8px;
   background: #ebebf0;
-  margin: 15px 0;
-  padding: 0 40px;
+  margin: 15px 40px;
   border-radius: 50px;
 }
 .progress {
