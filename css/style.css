@@ -441,14 +441,14 @@ button {
 
 #prevBtn {
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   color: #333;
   background: none;
 }
 
 #nextBtn {
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   color: #0948b4;
   background: none;
 }
