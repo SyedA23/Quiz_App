@@ -192,24 +192,25 @@ const quizQuestions = [
     answer: 1
   },
   {
-    question: "What is the correct way to comment in HTML?",
+    question:
+      "Which attribute is used to provide a unique name to an HTML element?",
     options: [
-      { id: 1, value: "// Comment" },
-      { id: 2, value: "<!-- Comment -->" },
-      { id: 3, value: "/* Comment */" },
-      { id: 4, value: "{ Comment }" }
+      { id: 1, value: "class" },
+      { id: 2, value: "name" },
+      { id: 3, value: "id" },
+      { id: 4, value: "key" }
     ],
-    answer: 2
+    answer: 3
   },
   {
-    question: "Which tag is used to define an unordered list in HTML?",
+    question: "Which attribute is used to open a link in a new tab?",
     options: [
-      { id: 1, value: "<ul>" },
-      { id: 2, value: "<ol>" },
-      { id: 3, value: "<li>" },
-      { id: 4, value: "<list>" }
+      { id: 1, value: "href='_blank'" },
+      { id: 2, value: "target='_blank'" },
+      { id: 3, value: "newtab='true'" },
+      { id: 4, value: "open='new'" }
     ],
-    answer: 1
+    answer: 2
   },
   {
     question: "What is the purpose of the <meta> tag in HTML?",
