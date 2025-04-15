@@ -182,14 +182,17 @@ const quizQuestions = [
     answer: 1
   },
   {
-    question: "Which HTML tag is used to create a hyperlink?",
+    question: "What is the purpose of the <label> tag in HTML forms?",
     options: [
-      { id: 1, value: "<a>" },
-      { id: 2, value: "<link>" },
-      { id: 3, value: "<href>" },
-      { id: 4, value: "<url>" }
+      { id: 1, value: "To label sections of a form" },
+      { id: 2, value: "To define inputs" },
+      {
+        id: 3,
+        value: "To provide accessibility and associate text with a form control"
+      },
+      { id: 4, value: "To style the form" }
     ],
-    answer: 1
+    answer: 3
   },
   {
     question:
@@ -382,19 +385,21 @@ function saveSelectedAnswer() {
     localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
   }
 }
-
 function displayQuestion() {
   const quizContainer = document.getElementById("quiz-container");
   const questionObj = questions[currentQuestionIndex];
+
+  // Handle case when quiz is complete
   if (!questionObj) {
     quizContainer.innerHTML = "<h3>Quiz Completed! Thank you.</h3>";
     return;
   }
+  const currentQuestion = questions[currentQuestionIndex];
 
+  // Generate HTML for question and options
   let questionHTML = `
-    <h2 id="question-counter">Question ${currentQuestionIndex + 1} of ${
-    questions.length
-  }</h2>
+    <h2 id="question-counter"></h2>
+
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
@@ -405,12 +410,13 @@ function displayQuestion() {
   `;
 
   questionObj.options.forEach((option) => {
+    const isChecked =
+      selectedAnswers[questionObj.question] === option.id ? "checked" : "";
     questionHTML += `
       <li>
         <label>
-          <input type="radio" name="question" value="${option.id}" ${
-      selectedAnswers[questionObj.question] === option.id ? "checked" : ""
-    }> ${option.value}
+          <input type="radio" name="question" value="${option.id}" ${isChecked}>
+          ${option.value}
         </label>
       </li>
     `;
@@ -419,10 +425,32 @@ function displayQuestion() {
   questionHTML += `</ol>`;
   quizContainer.innerHTML = questionHTML;
 
-  // Enable/Disable Previous button
-  document.getElementById("prevBtn").disabled = currentQuestionIndex === 0;
-
+  // Update progress bar
   updateProgressBar();
+
+  // Handle Previous button visibility
+  const prevBtn = document.getElementById("prevBtn");
+  if (prevBtn) {
+    if (currentQuestionIndex === 0) {
+      prevBtn.style.visibility = "hidden";
+    } else {
+      prevBtn.style.visibility = "visible";
+    }
+
+    // Make sure button is not disabled
+    prevBtn.disabled = false;
+  }
+
+  const questionCounter = document.getElementById("question-counter"); // Your question title element
+  if (currentQuestionIndex === 8) {
+    questionCounter.textContent = "Last 2 Questions Left";
+  } else if (currentQuestionIndex === 9) {
+    questionCounter.textContent = "Hey this is the Last Question";
+  } else {
+    questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${
+      questions.length
+    }`;
+  }
 }
 
 function nextQuestion() {
@@ -442,9 +470,8 @@ function nextQuestion() {
     currentQuestionIndex++;
     displayQuestion();
   } else {
-    document.getElementById("quiz-container").innerHTML =
-      "<h3>Quiz Completed! Thank you.</h3>";
-    console.log("User Answers:", selectedAnswers);
+    localStorage.setItem("finalAnswers", JSON.stringify(selectedAnswers));
+    window.location.href = "leaderboard.html"; // or whatever your leaderboard page is
   }
 }
 
@@ -470,3 +497,60 @@ document.getElementById("nextBtn").addEventListener("click", nextQuestion);
 document.getElementById("prevBtn").addEventListener("click", prevQuestion);
 
 window.onload = loadQuiz;
+const users = JSON.parse(localStorage.getItem("leaderboard")) || [];
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+// Exit if data missing
+if (!currentUser || !users.length) {
+  console.error("Missing data for leaderboard or currentUser.");
+}
+
+// Sort users by score descending
+users.sort((a, b) => b.score - a.score);
+
+// Find current user rank
+const rank =
+  users.findIndex((user) => user.name.trim() === currentUser.name.trim()) + 1;
+document.getElementById(
+  "rank-heading"
+).textContent = `Wow You Rank ${rank}${getOrdinal(rank)}`;
+
+// Update top 3
+if (users[0]) {
+  document.getElementById("first").textContent = users[0].score;
+  document.getElementById("firstName").textContent = users[0].name;
+}
+if (users[1]) {
+  document.getElementById("second").textContent = users[1].score;
+  document.getElementById("secondName").textContent = users[1].name;
+}
+if (users[2]) {
+  document.getElementById("third").textContent = users[2].score;
+  document.getElementById("thirdName").textContent = users[2].name;
+}
+
+// Append other users from rank #4
+const container = document.getElementById("others-container");
+users.slice(3).forEach((user, index) => {
+  const div = document.createElement("div");
+  div.classList.add("user-row");
+  div.innerHTML = `<div>#${index + 4} ${user.name}</div><div>${
+    user.score
+  }</div>`;
+  container.appendChild(div);
+});
+
+// Helper function
+function getOrdinal(n) {
+  const s = ["th", "st", "nd", "rd"],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+// Logout
+document.getElementById("logout-btn").addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("selectedAnswers");
+  localStorage.removeItem("finalAnswers");
+  window.location.href = "index.html";
+});
