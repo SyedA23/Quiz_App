@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz App</title>
     <link rel="stylesheet" href="./css/style.css" />
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
 
   <body>
@@ -41,12 +46,20 @@
           <label for="password"
             >Password <span class="mandatory">*</span>
           </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-          />
+          <div class="password-wrapper">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+            <i
+              class="fa-solid fa-eye toggle-eye"
+              id="eyeIcon"
+              onclick="togglePassword()"
+            ></i>
+          </div>
+
           <span id="password-err" style="color: red"></span>
           <br />
           <button id="login" onclick="signup()">Sign Up</button>
