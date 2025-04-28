@@ -43,6 +43,26 @@ input[type="text"] {
 .mandatory {
   color: red;
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 35px;
+  width: 200px;
+  height: 30px;
+  font-size: 16px;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: grey;
+}
 /* #passwordErr{
     margin-right: 50px;
 } */
@@ -306,7 +326,7 @@ button {
 }
 .other-users {
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   font-size: 20px;
   color: #000;
   gap: 10px;
