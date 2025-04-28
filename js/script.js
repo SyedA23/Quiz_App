@@ -1,13 +1,13 @@
 // Utility Functions
-function simpleHash(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash |= 0;
-  }
-  return hash.toString();
-}
+// function simpleHash(str) {
+//   let hash = 0;
+//   for (let i = 0; i < str.length; i++) {
+//     const char = str.charCodeAt(i);
+//     hash = (hash << 5) - hash + char;
+//     hash |= 0;
+//   }
+//   return hash.toString();
+// }
 
 function getOrdinalSuffix(rank) {
   if (rank > 3 && rank < 21) return "th";
@@ -87,6 +87,21 @@ function validateFullName(fullName) {
   return true;
 }
 
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+  } else {
+    passwordInput.type = "password";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  }
+}
+
 // Auth Functions
 function signup() {
   nameErr.textContent = "";
@@ -124,7 +139,7 @@ function signup() {
     return;
   }
 
-  users.push({ fullName, email, password: simpleHash(password) });
+  users.push({ fullName, email, password: password });
   saveUsers(users);
   alert("Sign Up Successful");
   window.location.href = "index.html";
@@ -145,9 +160,7 @@ function login() {
   }
 
   const users = loadUsers();
-  const user = users.find(
-    (u) => u.email === email && u.password === simpleHash(password)
-  );
+  const user = users.find((u) => u.email === email && u.password === password);
 
   if (user) {
     localStorage.setItem(
@@ -219,7 +232,10 @@ function displayQuestion() {
 
   questionObj.options.forEach((option) => {
     const isChecked =
-      selectedAnswers[questionObj.question] === option.id ? "checked" : "";
+      parseInt(selectedAnswers[questionObj.question]) === parseInt(option.id)
+        ? "checked"
+        : "";
+
     questionHTML += `
       <li>
         <label>
