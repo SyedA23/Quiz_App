@@ -208,9 +208,10 @@ function getRandomQuestions() {
     return [];
   }
 }
-
 function displayQuestion() {
   const quizContainer = document.getElementById("quiz-container");
+  const prevBtn = document.getElementById("prevBtn");
+
   if (!quizContainer) return;
 
   if (currentQuestionIndex >= questions.length) {
@@ -218,6 +219,14 @@ function displayQuestion() {
     return;
   }
 
+  // Update Previous button visibility without affecting layout
+  if (prevBtn) {
+    prevBtn.style.visibility =
+      currentQuestionIndex === 0 ? "hidden" : "visible";
+    prevBtn.style.position = currentQuestionIndex === 0 ? "absolute" : "static";
+  }
+
+  // Rest of your displayQuestion code remains the same...
   const questionObj = questions[currentQuestionIndex];
   let questionHTML = `
     <h2 id="question-counter"></h2>
@@ -232,10 +241,7 @@ function displayQuestion() {
 
   questionObj.options.forEach((option) => {
     const isChecked =
-      parseInt(selectedAnswers[questionObj.question]) === parseInt(option.id)
-        ? "checked"
-        : "";
-
+      selectedAnswers[questionObj.question] == option.id ? "checked" : "";
     questionHTML += `
       <li>
         <label>
@@ -252,7 +258,6 @@ function displayQuestion() {
   updateProgressBar();
   updateQuestionCounter();
 }
-
 function updateProgressBar() {
   const progress = document.getElementById("progress");
   if (progress) {
@@ -290,6 +295,7 @@ function nextQuestion() {
   localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
 
   if (currentQuestionIndex < questions.length - 1) {
+    // CHANGED: Moved increment after saving answer
     currentQuestionIndex++;
     displayQuestion();
   } else {
@@ -298,6 +304,17 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
+  // Save current answer before moving back (if any is selected)
+  const selectedOption = document.querySelector(
+    "input[name='question']:checked"
+  );
+  if (selectedOption) {
+    const currentQuestion = questions[currentQuestionIndex];
+    selectedAnswers[currentQuestion.question] = parseInt(selectedOption.value);
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+  }
+
+  // Move to previous question
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     displayQuestion();
