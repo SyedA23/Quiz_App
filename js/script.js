@@ -363,7 +363,6 @@ function updateLeaderboard(score) {
   localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
   return true;
 }
-
 function displayLeaderboard() {
   const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
   const currentUser = getLoggedInUser();
@@ -397,7 +396,7 @@ function displayLeaderboard() {
     rankHeading.textContent = `Wow! You Rank ${
       currentIndex + 1
     }${getOrdinalSuffix(currentIndex + 1)}`;
-    rankSubtext.textContent = `Keep it up, ${currentUser.name}!`;
+    rrankSubtext.textContent = `Keep it up, ${currentUser.fullName}!`;
 
     const currentUserDiv = document.querySelector(".current-user");
     if (currentUserDiv) {
@@ -411,16 +410,23 @@ function displayLeaderboard() {
     }
   }
 
-  // Display other users
+  // Display other users excluding Top 3 and current user
   const otherUsersContainer = document.querySelector(".other-users-container");
   if (otherUsersContainer) {
     otherUsersContainer.innerHTML = "";
-    leaderboard.slice(3).forEach((user, index) => {
+
+    leaderboard.forEach((user, index) => {
+      // Skip Top 3
+      if (index < 3) return;
+
+      // Skip current user
+      if (user.email === currentUser?.email) return;
+
       const userDiv = document.createElement("div");
       userDiv.className = "other-user";
       userDiv.innerHTML = `
-        <div class="other-user-rank">#${index + 4}</div>
-        <div class="other-user-name">${user.name}</div>
+        <div class="other-user-rank">#${index + 1}</div>
+        <div class="other-user-name">${user.fullName}</div>
         <div class="other-user-score">${user.score}</div>
       `;
       otherUsersContainer.appendChild(userDiv);
