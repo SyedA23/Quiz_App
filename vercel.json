@@ -1,9 +1,9 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/home", "destination": "/home.html" },
-    { "source": "/signup", "destination": "/signup.html" },
-    { "source": "/leaderboard", "destination": "/leaderboard.html" },
-    { "source": "/quizstartpage", "destination": "/quizstartpage.html" }
+    { "source": "/home(.*)", "destination": "/home.html" },
+    { "source": "/signup(.*)", "destination": "/signup.html" },
+    { "source": "/leaderboard(.*)", "destination": "/leaderboard.html" },
+    { "source": "/quizstartpage(.*)", "destination": "/quizstartpage.html" }
   ]
 }
