@@ -1,14 +1,3 @@
-// Utility Functions
-// function simpleHash(str) {
-//   let hash = 0;
-//   for (let i = 0; i < str.length; i++) {
-//     const char = str.charCodeAt(i);
-//     hash = (hash << 5) - hash + char;
-//     hash |= 0;
-//   }
-//   return hash.toString();
-// }
-
 function getOrdinalSuffix(rank) {
   if (rank > 3 && rank < 21) return "th";
   switch (rank % 10) {
@@ -23,7 +12,6 @@ function getOrdinalSuffix(rank) {
   }
 }
 
-// User Management
 function loadUsers() {
   try {
     let users = localStorage.getItem("users");
@@ -52,7 +40,6 @@ function getLoggedInUser() {
   }
 }
 
-// Validation Functions
 var nameErr = document.getElementById("name-err");
 var emailErr = document.getElementById("email-err");
 var passwordErr = document.getElementById("password-err");
@@ -102,7 +89,6 @@ function togglePassword() {
   }
 }
 
-// Auth Functions
 function signup() {
   nameErr.textContent = "";
   passwordErr.textContent = "";
@@ -182,7 +168,6 @@ function logout() {
   window.location.href = "index.html";
 }
 
-// Quiz Functions
 let questions = [];
 let currentQuestionIndex = 0;
 let selectedAnswers = JSON.parse(localStorage.getItem("selectedAnswers")) || {};
@@ -196,7 +181,6 @@ function getRandomQuestions() {
       return [];
     }
 
-    // Fisher-Yates shuffle
     for (let i = allQuestions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
@@ -219,14 +203,12 @@ function displayQuestion() {
     return;
   }
 
-  // Update Previous button visibility without affecting layout
   if (prevBtn) {
     prevBtn.style.visibility =
       currentQuestionIndex === 0 ? "hidden" : "visible";
     prevBtn.style.position = currentQuestionIndex === 0 ? "absolute" : "static";
   }
 
-  // Rest of your displayQuestion code remains the same...
   const questionObj = questions[currentQuestionIndex];
   let questionHTML = `
     <h2 id="question-counter"></h2>
@@ -295,7 +277,6 @@ function nextQuestion() {
   localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
 
   if (currentQuestionIndex < questions.length - 1) {
-    // CHANGED: Moved increment after saving answer
     currentQuestionIndex++;
     displayQuestion();
   } else {
@@ -304,7 +285,6 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
-  // Save current answer before moving back (if any is selected)
   const selectedOption = document.querySelector(
     "input[name='question']:checked"
   );
@@ -314,7 +294,6 @@ function prevQuestion() {
     localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
   }
 
-  // Move to previous question
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     displayQuestion();
@@ -334,7 +313,6 @@ function calculateAndSubmitScore() {
   window.location.href = "leaderboard.html";
 }
 
-// Leaderboard Functions
 function updateLeaderboard(score) {
   const loggedInUser = getLoggedInUser();
   if (!loggedInUser) return false;
@@ -366,11 +344,8 @@ function updateLeaderboard(score) {
 function displayLeaderboard() {
   const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
   const currentUser = getLoggedInUser();
-
-  // Sort by score descending
   leaderboard.sort((a, b) => b.score - a.score);
 
-  // Update Top 3
   const topThree = leaderboard.slice(0, 3);
   if (topThree[0]) {
     document.getElementById("firstName").textContent = topThree[0].name;
@@ -410,16 +385,13 @@ function displayLeaderboard() {
     }
   }
 
-  // Display other users excluding Top 3 and current user
   const otherUsersContainer = document.querySelector(".other-users-container");
   if (otherUsersContainer) {
     otherUsersContainer.innerHTML = "";
 
     leaderboard.forEach((user, index) => {
-      // Skip Top 3
       if (index < 3) return;
 
-      // Skip current user
       if (user.email === currentUser?.email) return;
 
       const userDiv = document.createElement("div");
@@ -439,20 +411,16 @@ const quizQuestions = [
   // ... (your existing quiz questions array remains exactly the same)
 ];
 
-// Event Listeners and Initialization
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize quiz questions if not already set
   if (!localStorage.getItem("quizQuestions")) {
     localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
   }
 
-  // Set up quiz navigation buttons
   const nextBtn = document.getElementById("nextBtn");
   const prevBtn = document.getElementById("prevBtn");
   if (nextBtn) nextBtn.addEventListener("click", nextQuestion);
   if (prevBtn) prevBtn.addEventListener("click", prevQuestion);
 
-  // Set up logout button
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
@@ -463,7 +431,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Profile photo popup
   const profilePhoto = document.getElementById("profile-photo");
   const popupContainer = document.getElementById("popup-container");
   if (profilePhoto && popupContainer) {
@@ -482,7 +449,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Load appropriate content based on page
   if (window.location.pathname.includes("quiz")) {
     loadQuiz();
   } else if (window.location.pathname.includes("leaderboard")) {
@@ -499,7 +465,6 @@ function loadQuiz() {
   displayQuestion();
 }
 
-// Start quiz function
 function startQuiz() {
   localStorage.removeItem("selectedAnswers");
   localStorage.removeItem("finalAnswers");
