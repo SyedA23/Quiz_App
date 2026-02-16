@@ -168,6 +168,10 @@ button {
   margin-top: 10px;
 }
 
+.supporting-text {
+  padding: 10px 0 0 40px;
+}
+
 .content {
   margin-top: 30px;
   padding: 0 20px;
