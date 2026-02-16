@@ -32,24 +32,20 @@
     <!-- Quiz Container -->
     <div class="question-container" id="quiz-container">
       <!-- Question Header -->
-      <h2 id="question-counter">Question 1 of 10</h2>
+      <h2 id="question-counter">Loading Question...</h2>
       <div class="progress-bar">
         <div class="progress" id="progress"></div>
       </div>
 
       <!-- Question Title -->
-      <h3 id="question-title">1. This is the question?</h3>
-      <p class="supporting-text">Supporting Text</p>
+      <h3 id="question-title"></h3>
+      <p class="supporting-text">Choose the correct answer below:</p>
 
-      <!-- Options -->
-      <ol class="options" id="options">
-        <li><strong>1.</strong> Option</li>
-        <li><strong>2.</strong> Option</li>
-        <li><strong>3.</strong> Option</li>
-        <li><strong>4.</strong> Option</li>
-      </ol>
-      <!-- Navigation Buttons -->
+      <!-- Options (dynamic) -->
+      <ol class="options" id="options"></ol>
     </div>
+
+    <!-- Navigation Buttons -->
     <div class="navigation-btn">
       <button id="prevBtn" disabled>← Previous</button>
       <button id="nextBtn">Submit & Continue →</button>
